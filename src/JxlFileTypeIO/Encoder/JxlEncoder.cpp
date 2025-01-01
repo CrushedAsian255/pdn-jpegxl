@@ -281,7 +281,7 @@ EncoderStatus EncoderWriteImage(
             }
         }
 
-        if (metadata->exifSize > 0)
+        if (metadata->exifSize > 4)
         {
             if (JxlEncoderAddBox(
                 enc.get(),
