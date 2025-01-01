@@ -79,7 +79,7 @@ namespace JpegXLFileTypePlugin.Exif
             IFDInfo ifdInfo = BuildIFDEntries();
             Dictionary<ExifSection, IFDEntryInfo> ifdEntries = ifdInfo.IFDEntries;
 
-            byte[] exifBytes = new byte[checked((int)ifdInfo.EXIFDataLength)];
+            byte[] exifBytes = new byte[checked((int)ifdInfo.EXIFDataLength+4)];
 
             using (MemoryStream stream = new(exifBytes))
             using (BinaryWriter writer = new(stream))
@@ -87,6 +87,7 @@ namespace JpegXLFileTypePlugin.Exif
                 IFDEntryInfo imageInfo = ifdEntries[ExifSection.Image];
                 IFDEntryInfo exifInfo = ifdEntries[ExifSection.Photo];
 
+                writer.Write((uint)0);
                 writer.Write(TiffConstants.LittleEndianByteOrderMarker);
                 writer.Write(TiffConstants.Signature);
                 writer.Write((uint)imageInfo.StartOffset);
